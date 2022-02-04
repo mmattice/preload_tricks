@@ -13,9 +13,9 @@ debug: all
 
 test: debug check-logs.o
 	@echo 'Test WITH preload'
-	LD_PRELOAD=./logforce.so ./check-logs.o
+	HIJACK_LOG_PATH="/tmp/logs-*/foo.log" LD_PRELOAD=./logforce.so ./check-logs.o
 	@echo 'Test WITHOUT preload'
-	@if ./check-logs.o; then echo "  *** Test is unreliable: we're actually on ext4"; fi
+	@if ./check-logs.o; then echo "  *** Test is unreliable: directory exists"; fi
 
 %.so: %.c
 	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)

@@ -1,1 +1,2 @@
-logforce.so
+*.so
+*.o
