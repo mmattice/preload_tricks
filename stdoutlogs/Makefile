@@ -6,14 +6,14 @@ CFLAGS = -shared -fPIC -Wall
 LDFLAGS = -ldl
 
 .PHONY: all
-all: logforce.so
+all: stdoutlogs.so
 
 debug: CFLAGS += -DDEBUG -g
 debug: all
 
 test: debug check-logs.o
 	@echo 'Test WITH preload'
-	HIJACK_LOG_PATH="/tmp/logs-*/foo.log" LD_PRELOAD=./logforce.so ./check-logs.o
+	HIJACK_LOG_PATH="/tmp/logs-*/foo.log" LD_PRELOAD=./stdoutlogs.so ./check-logs.o
 	@echo 'Test WITHOUT preload'
 	@if ./check-logs.o; then echo "  *** Test is unreliable: directory exists"; fi
 
@@ -24,4 +24,4 @@ test: debug check-logs.o
 	$(CC) -o $@ $<
 
 clean:
-	rm -vf logforce.so checklogs.o
+	rm -vf stdoutlogs.so checklogs.o
